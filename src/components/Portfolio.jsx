@@ -1240,17 +1240,20 @@ export default function Portfolio() {
                 marginBottom: 14,
               }}
             >
-              My journey in software development has been marked by hands-on
-              projects ranging from IP management platforms to AI-powered
-              nutrition systems. I'm particularly interested in creating
-              solutions that solve real-world problems and enhance user
-              experiences.
+              My journey in software development has been driven by a passion
+              for building intelligent, AI-powered web applications. From a
+              hybrid AI exam evaluation platform with real-time communication to
+              an eco-entrepreneurship tool that converts waste into business
+              ideas — my projects reflect a strong command of the MERN stack
+              combined with Generative AI integration.
             </p>
             <p style={{ fontSize: 15, color: c.muted, lineHeight: 1.85 }}>
-              Beyond technical skills, I bring strong problem-solving abilities,
-              effective communication, and a team-oriented mindset to every
-              project. I'm always eager to learn new technologies and stay
-              updated with industry trends.
+              Beyond technical skills, I bring sharp problem-solving abilities
+              backed by 300+ DSA problems solved on LeetCode and GeeksforGeeks,
+              a 5-star C++ rating on HackerRank, and certifications from Oracle,
+              Infosys, and NPTEL. I thrive in collaborative environments and am
+              always eager to learn, build, and push the boundaries of what
+              technology can solve.
             </p>
           </div>
 
@@ -1269,7 +1272,7 @@ export default function Portfolio() {
               {
                 icon: "📍",
                 label: "Location",
-                title: "Lucknow, Uttar Pradesh, India",
+                title: "Roorkee, Uttarakhand, India",
                 sub: "Available for opportunities",
                 color: c.accent2,
               },
@@ -1283,7 +1286,7 @@ export default function Portfolio() {
               {
                 icon: "💼",
                 label: "Experience",
-                title: "5+ Projects",
+                title: "2+ Projects",
                 sub: "5+ Certifications",
                 color: "#c084fc",
               },
