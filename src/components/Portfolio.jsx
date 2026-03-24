@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import emailjs from "@emailjs/browser";
 
 const COLORS = {
   dark: {
@@ -718,7 +719,60 @@ export default function Portfolio() {
   const [activeNav, setActiveNav] = useState("About");
   const [skillTab, setSkillTab] = useState("all");
   const [scrolled, setScrolled] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSending, setIsSending] = useState(false);
+  const [status, setStatus] = useState(null); // 'success' | 'error'
   const c = dark ? COLORS.dark : COLORS.light;
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSending(true);
+
+    // NOTE: Replace these with your actual EmailJS credentials
+    const SERVICE_ID = "service_25s40yk";
+    const TEMPLATE_ID = "template_k7ga86a";
+    const PUBLIC_KEY = "AzNBQm6kcYZE1kRnS";
+
+    emailjs.init(PUBLIC_KEY);
+
+    emailjs
+      .send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: "himanshuantal26@gmail.com",
+        },
+        PUBLIC_KEY
+      )
+      .then(
+        () => {
+          setIsSending(false);
+          setStatus("success");
+          setFormData({ name: "", email: "", subject: "", message: "" });
+          setTimeout(() => setStatus(null), 5000);
+        },
+        (error) => {
+          setIsSending(false);
+          setStatus("error");
+          console.error("EmailJS Error:", error);
+          setTimeout(() => setStatus(null), 5000);
+        }
+      );
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -753,6 +807,8 @@ export default function Portfolio() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; overflow-x: hidden; }
+        img { max-width: 100%; height: auto; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: ${c.border}; border-radius: 99px; }
@@ -763,10 +819,36 @@ export default function Portfolio() {
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .fade-in { animation: fadeUp 0.7s cubic-bezier(.4,0,.2,1) both; }
         .section-heading { font-family: 'Syne', sans-serif; font-size: clamp(26px, 4vw, 38px); font-weight: 800; }
+
+        /* Responsive overrides (inline styles need !important) */
+        .portfolio-navlinks { min-width: 0; }
+        .portfolio-quickstats { flex-wrap: wrap; justify-content: center; }
+
+        @media (max-width: 900px) {
+          .portfolio-training-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+        }
+
+        @media (max-width: 720px) {
+          .portfolio-nav { height: auto !important; padding: 10px 16px !important; flex-wrap: wrap !important; gap: 10px !important; }
+          .portfolio-brand { margin-right: 0 !important; width: 100% !important; }
+          .portfolio-navlinks { width: 100% !important; gap: 10px !important; flex-wrap: wrap !important; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+          .portfolio-navlinks::-webkit-scrollbar { height: 0px; }
+
+          .portfolio-info-grid { grid-template-columns: 1fr !important; }
+          .portfolio-contact-grid { grid-template-columns: 1fr !important; }
+
+          .portfolio-projects-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; gap: 16px !important; }
+          .portfolio-achievements-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important; gap: 16px !important; }
+        }
+
+        @media (max-width: 420px) {
+          .portfolio-projects-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* NAV */}
       <nav
+        className="portfolio-nav"
         style={{
           position: "fixed",
           top: 0,
@@ -784,6 +866,7 @@ export default function Portfolio() {
         }}
       >
         <span
+          className="portfolio-brand"
           style={{
             fontFamily: "'Syne', sans-serif",
             fontWeight: 800,
@@ -795,6 +878,7 @@ export default function Portfolio() {
           HA
         </span>
         <div
+          className="portfolio-navlinks"
           style={{
             display: "flex",
             gap: "clamp(12px,2vw,32px)",
@@ -917,7 +1001,7 @@ export default function Portfolio() {
             </div>
           </div>
           {/* Quick stats */}
-          <div style={{ display: "flex", gap: 16 }}>
+          <div className="portfolio-quickstats" style={{ display: "flex", gap: 16 }}>
             {[
               ["2+", "Projects"],
               ["5+", "Certs"],
@@ -1259,6 +1343,7 @@ export default function Portfolio() {
 
           {/* Info Grid */}
           <div
+            className="portfolio-info-grid"
             style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}
           >
             {[
@@ -1626,6 +1711,7 @@ export default function Portfolio() {
           </p>
         </div>
         <div
+          className="portfolio-projects-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
@@ -1804,6 +1890,7 @@ export default function Portfolio() {
           </p>
         </div>
         <div
+          className="portfolio-training-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
@@ -2072,6 +2159,7 @@ export default function Portfolio() {
           </h2>
         </div>
         <div
+          className="portfolio-achievements-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
@@ -2153,101 +2241,306 @@ export default function Portfolio() {
             Open for opportunities, collaborations, and conversations
           </p>
         </div>
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
           <div
+            className="portfolio-contact-container"
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 14,
-              marginBottom: 28,
+              gridTemplateColumns: "1fr 1.3fr",
+              gap: 40,
+              alignItems: "start",
             }}
           >
-            {[
-              {
-                icon: "✉",
-                label: "Email",
-                value: "himanshuantal26@gmail.com",
-                href: "mailto:himanshuantal26@gmail.com",
-                color: c.accent,
-              },
-              {
-                icon: "☎",
-                label: "Phone",
-                value: "+91-7351206107",
-                href: "tel:+91-7351206107",
-                color: c.accent2,
-              },
-              {
-                icon: "in",
-                label: "LinkedIn",
-                value: "himanshu-antal",
-                href: "https://www.linkedin.com/in/himanshu-antal/",
-                color: "#0a66c2",
-              },
-              {
-                icon: <GitHubIcon size={20} color="currentColor" />,
-                label: "GitHub",
-                value: "himanshuantal",
-                href: "https://github.com/himanshuantal5640",
-                color: c.accent3,
-              },
-            ].map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  background: c.card,
-                  border: `1px solid ${c.border}`,
-                  borderRadius: 16,
-                  padding: "20px 22px",
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 14,
-                  transition: "all 0.25s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = item.color + "66";
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow = `0 8px 24px ${item.color}20`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = c.border;
-                  e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
-              >
-                <div
+            {/* Left: Contact Info */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {[
+                {
+                  icon: "✉",
+                  label: "Email",
+                  value: "himanshuantal26@gmail.com",
+                  href: "mailto:himanshuantal26@gmail.com",
+                  color: c.accent,
+                },
+                {
+                  icon: "☎",
+                  label: "Phone",
+                  value: "+91-7351206107",
+                  href: "tel:+91-7351206107",
+                  color: c.accent2,
+                },
+                {
+                  icon: "in",
+                  label: "LinkedIn",
+                  value: "himanshu-antal",
+                  href: "https://www.linkedin.com/in/himanshu-antal/",
+                  color: "#0a66c2",
+                },
+                {
+                  icon: <GitHubIcon size={20} color="currentColor" />,
+                  label: "GitHub",
+                  value: "himanshuantal",
+                  href: "https://github.com/himanshuantal5640",
+                  color: c.accent3,
+                },
+              ].map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 12,
-                    background: `${item.color}18`,
+                    background: c.card,
+                    border: `1px solid ${c.border}`,
+                    borderRadius: 16,
+                    padding: "18px 20px",
+                    textDecoration: "none",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 18,
-                    color: item.color,
-                    flexShrink: 0,
-                    border: `1px solid ${item.color}33`,
+                    gap: 14,
+                    transition: "all 0.25s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = item.color + "66";
+                    e.currentTarget.style.transform = "translateY(-3px)";
+                    e.currentTarget.style.boxShadow = `0 8px 24px ${item.color}20`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = c.border;
+                    e.currentTarget.style.transform = "none";
+                    e.currentTarget.style.boxShadow = "none";
                   }}
                 >
-                  {item.icon}
-                </div>
-                <div>
                   <div
-                    style={{ fontSize: 11, color: c.muted, marginBottom: 2 }}
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 12,
+                      background: `${item.color}18`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 18,
+                      color: item.color,
+                      flexShrink: 0,
+                      border: `1px solid ${item.color}33`,
+                    }}
                   >
-                    {item.label}
+                    {item.icon}
                   </div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: c.text }}>
-                    {item.value}
+                  <div>
+                    <div
+                      style={{ fontSize: 11, color: c.muted, marginBottom: 2 }}
+                    >
+                      {item.label}
+                    </div>
+                    <div
+                      style={{ fontSize: 13, fontWeight: 600, color: c.text }}
+                    >
+                      {item.value}
+                    </div>
                   </div>
+                </a>
+              ))}
+
+              {/* Status Message */}
+              {status && (
+                <div
+                  style={{
+                    marginTop: 10,
+                    padding: "14px 18px",
+                    borderRadius: 12,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    textAlign: "center",
+                    background: status === "success" ? "#10b98115" : "#ef444415",
+                    color: status === "success" ? "#10b981" : "#ef4444",
+                    border: `1px solid ${status === "success" ? "#10b98133" : "#ef444433"}`,
+                    animation: "fadeUp 0.4s ease",
+                  }}
+                >
+                  {status === "success"
+                    ? "✨ Message sent successfully!"
+                    : "❌ Failed to send message. Please try again."}
                 </div>
-              </a>
-            ))}
+              )}
+            </div>
+
+            {/* Right: Modern Form */}
+            <form
+              onSubmit={handleSubmit}
+              style={{
+                background: c.card,
+                border: `1px solid ${c.border}`,
+                borderRadius: 20,
+                padding: "32px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 20,
+                boxShadow: `0 10px 30px -10px rgba(0,0,0,0.1)`,
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: c.muted, marginLeft: 4 }}>NAME</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="Your name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    style={{
+                      background: dark ? "#ffffff08" : "#f0f4ff",
+                      border: `1px solid ${c.border}`,
+                      borderRadius: 10,
+                      padding: "12px 16px",
+                      color: c.text,
+                      fontSize: 14,
+                      fontFamily: "inherit",
+                      outline: "none",
+                      transition: "all 0.2s",
+                    }}
+                    onFocus={(e) => (e.target.style.borderColor = c.accent)}
+                    onBlur={(e) => (e.target.style.borderColor = c.border)}
+                  />
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: c.muted, marginLeft: 4 }}>EMAIL</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="Your email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    style={{
+                      background: dark ? "#ffffff08" : "#f0f4ff",
+                      border: `1px solid ${c.border}`,
+                      borderRadius: 10,
+                      padding: "12px 16px",
+                      color: c.text,
+                      fontSize: 14,
+                      fontFamily: "inherit",
+                      outline: "none",
+                      transition: "all 0.2s",
+                    }}
+                    onFocus={(e) => (e.target.style.borderColor = c.accent)}
+                    onBlur={(e) => (e.target.style.borderColor = c.border)}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: c.muted, marginLeft: 4 }}>SUBJECT</label>
+                <input
+                  type="text"
+                  name="subject"
+                  required
+                  placeholder="What is this about?"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  style={{
+                    background: dark ? "#ffffff08" : "#f0f4ff",
+                    border: `1px solid ${c.border}`,
+                    borderRadius: 10,
+                    padding: "12px 16px",
+                    color: c.text,
+                    fontSize: 14,
+                    fontFamily: "inherit",
+                    outline: "none",
+                    transition: "all 0.2s",
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = c.accent)}
+                  onBlur={(e) => (e.target.style.borderColor = c.border)}
+                />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color: c.muted, marginLeft: 4 }}>MESSAGE</label>
+                <textarea
+                  name="message"
+                  required
+                  placeholder="Write your message here..."
+                  rows="5"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  style={{
+                    background: dark ? "#ffffff08" : "#f0f4ff",
+                    border: `1px solid ${c.border}`,
+                    borderRadius: 10,
+                    padding: "12px 16px",
+                    color: c.text,
+                    fontSize: 14,
+                    fontFamily: "inherit",
+                    outline: "none",
+                    transition: "all 0.2s",
+                    resize: "none",
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = c.accent)}
+                  onBlur={(e) => (e.target.style.borderColor = c.border)}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSending}
+                style={{
+                  background: c.accent,
+                  color: "#fff",
+                  border: "none",
+                  padding: "14px",
+                  borderRadius: 12,
+                  cursor: isSending ? "not-allowed" : "pointer",
+                  fontWeight: 700,
+                  fontSize: 15,
+                  fontFamily: "inherit",
+                  transition: "all 0.2s",
+                  boxShadow: `0 4px 16px ${c.accent}44`,
+                  marginTop: 6,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                  opacity: isSending ? 0.8 : 1,
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSending) {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = `0 8px 24px ${c.accent}66`;
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSending) {
+                    e.currentTarget.style.transform = "none";
+                    e.currentTarget.style.boxShadow = `0 4px 16px ${c.accent}44`;
+                  }
+                }}
+              >
+                {isSending ? (
+                  <>
+                    <div
+                      style={{
+                        width: 18,
+                        height: 18,
+                        border: "2px solid #fff",
+                        borderTopColor: "transparent",
+                        borderRadius: "50%",
+                        animation: "spin-slow 1s linear infinite",
+                      }}
+                    />
+                    Sending...
+                  </>
+                ) : (
+                  "Send Message 🚀"
+                )}
+              </button>
+            </form>
           </div>
         </div>
       </section>
@@ -2266,7 +2559,7 @@ export default function Portfolio() {
         }}
       >
         <span style={{ fontSize: 13, color: c.muted }}>
-          © 2025 Himanshu Antal. Built with ❤️
+          © 2026 Himanshu Antal. Built with ❤️
         </span>
         <span style={{ fontSize: 13, color: c.muted }}>
           Full Stack Developer · LPU Punjab
