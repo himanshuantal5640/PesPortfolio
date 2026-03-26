@@ -2,7 +2,7 @@ import { GitHubIcon } from "./ui/Icons";
 
 export default function Contact({ formData, handleInputChange, handleSubmit, isSending, status, dark, c }) {
   return (
-    <section id="contact" style={{ padding: "80px clamp(16px,8vw,120px)" }}>
+    <section id="contact" style={{ padding: "clamp(60px, 10vw, 100px) clamp(16px, 6vw, 120px)" }}>
       <div style={{ textAlign: "center", marginBottom: 48 }}>
         <div
           style={{
@@ -150,11 +150,12 @@ export default function Contact({ formData, handleInputChange, handleSubmit, isS
 
           <form
             onSubmit={handleSubmit}
+            className="portfolio-contact-form"
             style={{
               background: c.card,
               border: `1px solid ${c.border}`,
               borderRadius: 20,
-              padding: "32px",
+              padding: "clamp(24px, 4vw, 40px)",
               display: "flex",
               flexDirection: "column",
               gap: 20,
@@ -162,10 +163,11 @@ export default function Contact({ formData, handleInputChange, handleSubmit, isS
             }}
           >
             <div
+              className="portfolio-form-row"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                gap: 16,
+                gap: 20,
               }}
             >
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>

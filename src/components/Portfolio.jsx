@@ -124,22 +124,31 @@ export default function Portfolio() {
           .portfolio-training-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
         }
 
-        @media (max-width: 720px) {
-          .portfolio-nav { height: auto !important; padding: 10px 16px !important; flex-wrap: wrap !important; gap: 10px !important; }
-          .portfolio-brand { margin-right: 0 !important; width: 100% !important; }
-          .portfolio-navlinks { width: 100% !important; gap: 10px !important; flex-wrap: wrap !important; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-          .portfolio-navlinks::-webkit-scrollbar { height: 0px; }
+        @media (max-width: 768px) {
+          .portfolio-nav { height: auto !important; padding: 12px 16px !important; flex-direction: column !important; align-items: stretch !important; gap: 4px !important; background: ${scrolled ? c.navBg : c.bg} !important; border-bottom: 1px solid ${c.border} !important; }
+          .portfolio-brand-row { display: flex !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; margin-bottom: 4px; }
+          .portfolio-navlinks { width: 100% !important; gap: 4px !important; order: 3 !important; justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 4px 0 8px; scrollbar-width: none; border-top: 1px solid ${c.border}22; }
+          .portfolio-navlinks::-webkit-scrollbar { display: none; }
+          .portfolio-navlinks button { white-space: nowrap; padding: 6px 12px !important; font-size: 13px !important; flex-shrink: 0; }
+          .portfolio-toggle-mobile { display: block !important; }
 
-          .portfolio-info-grid { grid-template-columns: 1fr !important; }
+          .portfolio-info-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
           .portfolio-contact-grid { grid-template-columns: 1fr !important; }
 
-          .portfolio-projects-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; gap: 16px !important; }
-          .portfolio-achievements-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important; gap: 16px !important; }
-          .portfolio-contact-container { grid-template-columns: 1fr !important; }
+          .portfolio-projects-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important; gap: 20px !important; }
+          .portfolio-achievements-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+          .portfolio-contact-container { grid-template-columns: 1fr !important; gap: 24px !important; }
+          .portfolio-contact-form { padding: 24px 20px !important; }
+          .portfolio-form-row { grid-template-columns: 1fr !important; gap: 20px !important; }
         }
 
-        @media (max-width: 420px) {
+        @media (max-width: 480px) {
+          .section-heading { font-size: clamp(22px, 7vw, 28px) !important; }
+          .hero-name { font-size: clamp(34px, 12vw, 48px) !important; }
           .portfolio-projects-grid { grid-template-columns: 1fr !important; }
+          .portfolio-nav { padding: 8px 12px !important; }
+          .portfolio-navlinks button { padding: 4px 10px !important; font-size: 12px !important; }
+          section { padding: 40px 16px !important; }
         }
       `}</style>
 

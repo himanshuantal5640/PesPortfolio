@@ -1,31 +1,31 @@
 export const COLORS = {
   dark: {
-    bg: "#0c0a1f",
-    surface: "#16142e",
-    card: "#1e1b4b",
-    cardHover: "#2d2a5d",
-    border: "#312e81",
-    text: "#eef2ff",
-    muted: "#94a3b8",
-    accent: "#a855f7", // Vibrant Purple
-    accentGlow: "rgba(168,85,247,0.18)",
-    accent2: "#06b6d4", // Cyan
-    accent3: "#f43f5e", // Rose
-    navBg: "rgba(12,10,31,0.92)",
+    bg: "#050a0a",
+    surface: "#0a1414",
+    card: "#0e1a1a",
+    cardHover: "#152525",
+    border: "#1a2e2e",
+    text: "#e0f2f1",
+    muted: "#648a88",
+    accent: "#10b981", // Emerald Green
+    accentGlow: "rgba(16,185,129,0.18)",
+    accent2: "#22d3ee", // Cyan
+    accent3: "#34d399", // Mint
+    navBg: "rgba(5,10,10,0.92)",
   },
   light: {
-    bg: "#f5f3ff",
+    bg: "#f0fdfa",
     surface: "#ffffff",
     card: "#ffffff",
-    cardHover: "#f8fafc",
-    border: "#e2e8f0",
-    text: "#1e1b4b",
-    muted: "#64748b",
-    accent: "#7e22ce", // Deep Purple
-    accentGlow: "rgba(126,34,206,0.10)",
+    cardHover: "#f0f9f9",
+    border: "#ccfbf1",
+    text: "#064e3b",
+    muted: "#3f6259",
+    accent: "#059669", // Darker Emerald
+    accentGlow: "rgba(5,150,105,0.1)",
     accent2: "#0891b2", // Deep Cyan
-    accent3: "#e11d48", // Deep Rose
-    navBg: "rgba(245,243,255,0.95)",
+    accent3: "#10b981", // Emerald
+    navBg: "rgba(240,253,250,0.95)",
   },
 };
 

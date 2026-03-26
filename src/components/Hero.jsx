@@ -10,8 +10,8 @@ export default function Hero({ dark, scrollTo, c }) {
         alignItems: "center",
         padding: "80px clamp(16px,8vw,120px) 60px",
         background: dark
-          ? `radial-gradient(ellipse 80% 60% at 60% 40%, rgba(168,85,247,0.10) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(6,182,212,0.06) 0%, transparent 60%)`
-          : `radial-gradient(ellipse 80% 60% at 60% 40%, rgba(126,34,206,0.07) 0%, transparent 60%)`,
+          ? `radial-gradient(ellipse 80% 60% at 60% 40%, rgba(16,185,129,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(34,211,238,0.05) 0%, transparent 60%)`
+          : `radial-gradient(ellipse 80% 60% at 60% 40%, rgba(16,185,129,0.06) 0%, transparent 60%)`,
         gap: "clamp(32px, 6vw, 80px)",
         flexWrap: "wrap",
       }}
@@ -169,6 +169,7 @@ export default function Hero({ dark, scrollTo, c }) {
           ✦ WELCOME TO MY PORTFOLIO
         </div>
         <h1
+          className="hero-name"
           style={{
             fontFamily: "'Syne', sans-serif",
             fontWeight: 900,

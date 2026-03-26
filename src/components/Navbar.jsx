@@ -17,21 +17,43 @@ export default function Navbar({ scrolled, dark, setDark, activeNav, scrollTo, c
         padding: "0 clamp(16px,4vw,80px)",
         display: "flex",
         alignItems: "center",
-        height: 64,
+        height: scrolled ? 64 : 80,
       }}
     >
-      <span
-        className="portfolio-brand"
-        style={{
-          fontFamily: "'Syne', sans-serif",
-          fontWeight: 800,
-          fontSize: 22,
-          color: c.accent,
-          marginRight: "auto",
-        }}
-      >
-        HA
-      </span>
+      <div className="portfolio-brand-row" style={{ display: "flex", alignItems: "center", flex: 1 }}>
+        <span
+          className="portfolio-brand"
+          style={{
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 800,
+            fontSize: 22,
+            color: c.accent,
+            marginRight: "auto",
+          }}
+        >
+          HA
+        </span>
+        <button
+          className="portfolio-toggle-mobile"
+          onClick={() => setDark(!dark)}
+          style={{
+            background: c.card,
+            border: `1px solid ${c.border}`,
+            borderRadius: 99,
+            padding: "6px 14px",
+            cursor: "pointer",
+            fontSize: 14,
+            color: c.text,
+            fontFamily: "inherit",
+            fontWeight: 500,
+            transition: "all 0.2s",
+            display: "none", // Hidden on desktop, shown on mobile via CSS
+          }}
+        >
+          {dark ? "☀ Light" : "🌙 Dark"}
+        </button>
+      </div>
+
       <div
         className="portfolio-navlinks"
         style={{
@@ -64,6 +86,7 @@ export default function Navbar({ scrolled, dark, setDark, activeNav, scrollTo, c
           </button>
         ))}
         <button
+          className="portfolio-toggle-desktop"
           onClick={() => setDark(!dark)}
           style={{
             background: c.card,
